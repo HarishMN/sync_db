@@ -1,2 +1,2 @@
 # sync_db
-Syncing Two databases
+Syncing Two databases, using Django rest framework
