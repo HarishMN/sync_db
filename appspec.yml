@@ -2,4 +2,28 @@ version: 0.0
 os: linux
 files:
     - source: /
-      destination: /home/ec2-user/python-app
+      destination: /home/ec2-user/
+permissions:
+  - object: /home/ec2-user/www
+    owner: ec2-user
+    group: ec2-user
+hooks:
+  BeforeInstall:
+    - location: scripts/clean_instance.sh
+      timeout: 600
+      runas: root
+  AfterInstall:
+    - location: scripts/install_os_dependencies.sh
+      timeout: 300
+      runas: root
+    - location: scripts/python_dependencies.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: scripts/start_application.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStop:
+    - location: scripts/stop_application.sh
+      timeout: 300
+      runas: ec2-user
